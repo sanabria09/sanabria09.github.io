@@ -50,18 +50,14 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);min-height
 .wk{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line2);background:var(--paper2);font-size:12px;font-weight:600;font-family:var(--mono);cursor:pointer;color:var(--ink);transition:all 0.15s;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
 .wk.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-/* SYNC BAR */
+/* BACKUP BAR */
 .sync-bar{background:var(--paper2);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .sync-status{flex:1;min-width:0}
 .sync-lbl{font-size:10px;font-family:var(--mono);color:var(--ink3);text-transform:uppercase;letter-spacing:0.4px}
 .sync-msg{font-size:12px;font-family:var(--mono);color:var(--ink2);margin-top:2px}
-.sync-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.sync-dot.ok{background:var(--green)}.sync-dot.syncing{background:var(--amber);animation:pulse 1s infinite}
-.sync-dot.err{background:var(--coral)}.sync-dot.idle{background:var(--ink3)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 .sync-btns{display:flex;gap:6px}
 .sync-btn{font-size:10px;font-family:var(--mono);font-weight:500;padding:5px 11px;border-radius:16px;border:1.5px solid var(--line2);background:var(--paper3);cursor:pointer;color:var(--ink2);-webkit-tap-highlight-color:transparent}
-.sync-btn.restore{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.sync-btn.primary{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
 
 /* LEGEND */
 .legend{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
@@ -250,16 +246,16 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);min-height
     <div class="wk-row" id="wkRow"></div>
   </div>
   <div class="sync-bar">
-    <div class="sync-dot idle" id="syncDot"></div>
     <div class="sync-status">
-      <div class="sync-lbl">Notion backup</div>
-      <div class="sync-msg" id="syncMsg">Not configured — tap Setup</div>
+      <div class="sync-lbl">Data backup</div>
+      <div class="sync-msg" id="syncMsg">Export saves your weights · Import restores them</div>
     </div>
     <div class="sync-btns">
-      <button class="sync-btn restore" id="restoreBtn" onclick="restoreFromNotion()" style="display:none">Restore</button>
-      <button class="sync-btn" onclick="openNotionSetup()">Setup</button>
+      <button class="sync-btn" onclick="importData()">Import</button>
+      <button class="sync-btn primary" onclick="exportData()">Export</button>
     </div>
   </div>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)"/>
   <div class="legend">
     <span class="legend-lbl">set markers:</span>
     <span class="leg"><span class="ld lu">↑</span> increase</span>
@@ -292,17 +288,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);min-height
   <div class="alert-flash-tap">tap to dismiss</div>
 </div>
 
-<div class="modal-bg" id="notionModal">
-  <div class="modal">
-    <h3>Notion backup setup</h3>
-    <p>Create a blank Notion page, copy the link, and paste the page ID (the long string at the end of the URL) below. Your data auto-saves after every entry.</p>
-    <input class="modal-input" id="notionPageId" placeholder="Notion page ID" type="text"/>
-    <div class="modal-btns">
-      <button class="modal-btn" onclick="closeNotionSetup()">Cancel</button>
-      <button class="modal-btn primary" onclick="saveNotionSetup()">Connect</button>
-    </div>
-  </div>
-</div>
+
 <div class="toast" id="toast">Saved</div>
 
 <script>
@@ -316,25 +302,36 @@ function playBeep(){if(!ACtx)return;try{if(ACtx.state==='suspended')ACtx.resume(
 // ── STORAGE ────────────────────────────────────────────────────────────────
 const LSKEY='fbb_v5';
 function dbLoad(){try{return JSON.parse(localStorage.getItem(LSKEY))||{};}catch{return{};}}
-function dbSave(d){localStorage.setItem(LSKEY,JSON.stringify(d));showToast();scheduleNotionSync();}
+function dbSave(d){localStorage.setItem(LSKEY,JSON.stringify(d));showToast();}
 let DB=dbLoad();
 
 // ── TOAST ──────────────────────────────────────────────────────────────────
 let toastT;
 function showToast(){const el=document.getElementById('toast');el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),1200);}
 
-// ── NOTION ─────────────────────────────────────────────────────────────────
-const NK='fbb_notion_page';
-let notionPageId=localStorage.getItem(NK)||'';
-let syncTimer=null;
-function setSyncStatus(s,m){document.getElementById('syncDot').className='sync-dot '+s;document.getElementById('syncMsg').textContent=m;}
-function openNotionSetup(){document.getElementById('notionPageId').value=notionPageId;document.getElementById('notionModal').classList.add('show');}
-function closeNotionSetup(){document.getElementById('notionModal').classList.remove('show');}
-function saveNotionSetup(){const v=document.getElementById('notionPageId').value.trim().replace(/-/g,'');if(v.length<16){alert('Enter a valid Notion page ID.');return;}notionPageId=v;localStorage.setItem(NK,notionPageId);closeNotionSetup();document.getElementById('restoreBtn').style.display='';setSyncStatus('syncing','Syncing...');syncToNotion();}
-function scheduleNotionSync(){if(!notionPageId)return;clearTimeout(syncTimer);syncTimer=setTimeout(syncToNotion,3000);}
-async function syncToNotion(){if(!notionPageId)return;setSyncStatus('syncing','Saving to Notion...');try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,system:'Append the given data as a code block to the Notion page. Respond only with {"success":true} or {"success":false}',messages:[{role:'user',content:`Page ID: ${notionPageId}\nData:\n${JSON.stringify(DB)}\n\nAppend as code block titled "FBB Backup ${new Date().toISOString().slice(0,10)}"`}],mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}]})});if(r.ok){setSyncStatus('ok',`Backed up at ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`);document.getElementById('restoreBtn').style.display='';}else setSyncStatus('err','Sync failed — data safe locally');}catch(e){setSyncStatus('err','Sync failed — data safe locally');}}
-async function restoreFromNotion(){if(!notionPageId){openNotionSetup();return;}setSyncStatus('syncing','Restoring...');try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,system:'Fetch the Notion page and return ONLY the JSON from the most recent "FBB Backup" code block, nothing else.',messages:[{role:'user',content:`Page ID: ${notionPageId}`}],mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}]})});if(r.ok){const d=await r.json();const t=d.content.map(c=>c.text||'').join('');const m=t.match(/\{[\s\S]+\}/);if(m){DB=JSON.parse(m[0]);localStorage.setItem(LSKEY,JSON.stringify(DB));setSyncStatus('ok','Restored successfully');renderAll();}else setSyncStatus('err','No backup found');}else setSyncStatus('err','Restore failed');}catch(e){setSyncStatus('err','Restore failed');}}
-if(notionPageId){document.getElementById('restoreBtn').style.display='';setSyncStatus('idle','Connected — syncs after each save');}
+// ── BACKUP: EXPORT / IMPORT ────────────────────────────────────────────────
+function exportData(){
+  const date=new Date().toISOString().slice(0,10);
+  const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`fbb-backup-${date}.json`;a.click();URL.revokeObjectURL(a.href);
+  document.getElementById('syncMsg').textContent='Exported — '+date;
+}
+function importData(){document.getElementById('importFile').click();}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const parsed=JSON.parse(ev.target.result);
+      DB=parsed;localStorage.setItem(LSKEY,JSON.stringify(DB));
+      document.getElementById('syncMsg').textContent='Restored from '+file.name;
+      renderAll();
+    }catch{alert('Invalid backup file.');}
+    e.target.value='';
+  };
+  reader.readAsText(file);
+}
 
 // ── TIMER ──────────────────────────────────────────────────────────────────
 let tInterval=null,tSecs=0,activeBtnId=null,currentExName='';
