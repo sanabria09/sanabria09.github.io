@@ -501,12 +501,145 @@ const WEEKS = {
         marcus:`Longevity has quietly become code for "I'm done pushing." I hear it all the time: "I just want to train for longevity" or "I just want to maintain where I'm at." And I get it. You're not 22. You don't want to grind yourself into dust five days a week.\n\nBut longevity isn't maintenance mode.\n\nYour body adapts to challenge. If you're not pushing against resistance — real resistance — you're slowly losing strength, muscle, and bone density. That slide doesn't start at 70. It starts now.\n\nTraining for longevity doesn't mean taking it easy. It means training with intention, structure, and effort — in a way you can sustain for decades.\n\nDon't coast. Your future self is counting on what you do today.`,
       },
     }
+  },
+  2: {
+    label:'Week 2 · Mar 30–Apr 5',
+    rpe:'RPE 7–9',
+    days: {
+      MON: {
+        type:'training',
+        label:'Day 1', date:'Mon 30', focus:'Squat + Pull',
+        focusNote:{
+          title:'Front Squat Progression',
+          body:'This cycle alternates between the traditional front squat and the cyclist front squat. The cyclist squat shifts emphasis toward the quads — elevated heels, more upright torso. Accumulate quad-focused volume here without maximal weight. DB Goblet Squat substitutes for the barbell cyclist front squat.'
+        },
+        wu:'Split Squat Isometric 20–30s/side · Shinbox Heel Touch 5/side · 2–3 sets',
+        s1:{name:'DB Goblet Cyclist Squat',orig:'Cyclist Front Squat',swap:true,
+          sets:3,reps:'8 / 8 / 8',tempo:'20X0',rest:'2–3 min',rpe:'RPE 7 / 8 / 9',rs:150,
+          note:'Elevate heels on plates or wedge. Hold DB at chest. 1–2 warm-up sets before working sets.'},
+        s2:{name:'Pull-ups / Lat Pulldown',orig:'Close Grip Lat Pulldown or Neutral Grip Pull Up',swap:false,
+          sets:4,reps:'12 / 10 / 8 / Max',tempo:'20X1',rest:'Every 2:30',rpe:'RPE 7 / 8 / 9 / Max',rs:150,
+          note:'Every 2:30. Decrease band assist or increase weight each set. Set 4: drop to set 1 and hit max reps — aim 8+.'},
+        sb:[
+          {name:'Deficit Push-up',orig:'Deficit Pushup',swap:false,sets:3,reps:'8–10',tempo:'31X1',rest:'60s',rpe:'RPE near failure',rs:60,
+            note:'Hands on plates/books, full depth. 1–2 warm-up sets.'},
+          {name:'DB Lateral Raise',orig:'Dumbbell Lateral Raise',swap:false,sets:3,reps:'8–10',tempo:'30X0',rest:'90s',rpe:'RPE near failure',rs:90},
+        ],
+        fin:{text:'2–3 sets — DB Side Plank 20–30s/side · rest 30s · Weighted Anchored Sit-Up 10–15 reps · rest 60s',
+          timers:[{label:'Side Plank',rs:25},{label:'30s rest',rs:30},{label:'Rest between sets',rs:60}]},
+        cd:{note:'5 min · 1–2 sets', items:[
+          {name:'Sidelying 90/90 Thoracic Rotation',detail:'6–8 reps/side',rs:null},
+          {name:'Reclining Hero Pose',detail:'30 sec',rs:30},
+          {name:'Elevated Pigeon Stretch',detail:'30 sec/side',rs:30},
+        ]},
+      },
+      WED: {
+        type:'training',
+        label:'Day 3', date:'Wed 1', focus:'Press + Row',
+        focusNote:{
+          title:'Barbell Row — Hand Position',
+          body:'Each of the first three weeks changes hand position to target a slightly different area of the back. Weights will likely vary week to week — don\'t chase last week\'s load. Note what you used for this specific variation and aim to improve it the next time it appears.'
+        },
+        wu:'Banded Shoulder External Rotation 10–15/side · PVC Alternating Shoulder Circles 5–7/side · 2–3 sets',
+        s1:{name:'DB Push Press',orig:'Push Press (Barbell)',swap:true,
+          sets:3,reps:'8 / 8 / 8',tempo:'30X1',rest:'2–3 min',rpe:'RPE 7 / 8 / 9',rs:150,
+          note:'Use legs to drive DBs overhead. Control the descent (1 sec lower). 1 warm-up set first.'},
+        s2:{name:'DB Bent-Over Row (Supinated Grip)',orig:'Supinated Barbell Bent Over Row',swap:true,
+          sets:3,reps:'15 / 12 / Max',tempo:'20X0',rest:'2–3 min',rpe:'RPE 7 / 8 / 10',rs:150,
+          note:'Palms facing up. Hinge forward, brace. Final set: max unbroken reps at set 1 weight.'},
+        sb:[
+          {name:'Hand Supported Ipsilateral Suitcase Step Down',orig:'Hand Supported Ipsilateral Suitcase Step Down',swap:false,sets:3,reps:'6–8/side',tempo:'30X0',rest:'60s',rpe:'RPE 7–8',rs:60,
+            note:'1–2 warm-up sets. Hold weight ipsilateral (same side as working leg). Control descent.'},
+          {name:'Tuck L-Sit on Parallettes',orig:'Tuck L Sit on Parallettes',swap:false,sets:3,reps:'20–30 sec',tempo:'—',rest:'90s',rpe:'RPE 7–8',rs:25},
+        ],
+        fin:{text:'2–3 sets — Cable Forearm Curls or DB Wrist Curl 12–15 reps · rest 30s · Cross Body Hammer Curl 10/side · rest 30–60s',
+          timers:[{label:'30s rest',rs:30},{label:'Rest between sets',rs:45}]},
+        cd:{note:'5 min · 1–2 sets', items:[
+          {name:'Bottom of Bench Dip Stretch',detail:'30 sec',rs:30},
+          {name:'Sidelying Thoracic Rotation w/ Reach',detail:'5/side',rs:null},
+          {name:'Tall Kneeling Lat Stretch',detail:'30 sec/side',rs:30},
+        ]},
+      },
+      FRI: {
+        type:'training',
+        label:'Day 5', date:'Fri 3', focus:'Hinge + Press',
+        focusNote:{
+          title:'Romanian Deadlift Technique',
+          body:'Aim for the greatest hamstring stretch you can without compromising your low back. Keep the low back near neutral throughout. Allow a slight knee bend but don\'t let it increase as you lower. Hinge at the hips — don\'t squat the weight down. Stop where you can maintain tension and position.'
+        },
+        wu:'90s Cardio · Front Foot Elevated Hand Support KOT Suitcase Split Squat 10/side · Horse Stance Pulse 30s · 2–3 rounds',
+        s1:{name:'DB Romanian Deadlift',orig:'Romanian Deadlift',swap:true,
+          sets:3,reps:'10 / 10 / 10',tempo:'20X0',rest:'2–3 min',rpe:'RPE 7 / 8 / 9',rs:150,
+          note:'Hinge at hip, soft knee. Feel hamstring load at the bottom. No spinal rounding.'},
+        s2:{name:'DB Incline Bench Press',orig:'Low Incline Barbell Bench Press',swap:true,
+          sets:4,reps:'8 / 6 / 4 / Max',tempo:'20X0',rest:'2–3 min',rpe:'RPE 7 / 8 / 9 / 10',rs:150,
+          note:'30–45 degree incline. 1 warm-up set. Final set: max unbroken reps at set 1 weight.'},
+        sb:[
+          {name:'Leg Behind Goblet Pistol',orig:'Leg Behind Plate Loaded Pistol',swap:true,sets:3,reps:'6–8/side',tempo:'30X0',rest:'60s',rpe:'RPE 7–8',rs:60,
+            note:'Hold DB at chest. 1–2 warm-up sets. Control descent fully.'},
+          {name:'DB Banded Spanish Squat',orig:'Plate Loaded Banded Spanish Squat',swap:true,sets:3,reps:'10–12',tempo:'30X0',rest:'90s',rpe:'RPE 7–8',rs:90,
+            note:'Use heavy band behind knees, hold DB at chest. Shins vertical, heavy quad load.'},
+        ],
+        fin:{text:'2–3 sets — Cross Body Kettlebell (or DB) Carry 20m/side · rest 15s · Ring or Plank Body Saw 30s · rest 60–90s',
+          timers:[{label:'DB Carry side',rs:20},{label:'15s rest',rs:15},{label:'Body Saw',rs:30},{label:'Rest between sets',rs:75}]},
+        cd:{note:'5 min · 1–2 sets', items:[
+          {name:'Couch Stretch Rocks',detail:'30 sec/side',rs:30},
+          {name:'Hip Sleeper Stretch',detail:'30 sec/side',rs:30},
+          {name:'Single Arm Wall Prayer Stretch',detail:'30 sec/side',rs:30},
+        ]},
+      },
+    },
+    recovery: {
+      TUE: {
+        label:'Rec', date:'Tue 31',
+        cardio:{title:'Optional Active Recovery — 30 min',body:'Low-intensity steady-state only. Walk, hike, bike, or swim. Keep it easy — this is not a training day.'},
+        mobility:{title:'Hip Mobility · 10 min',items:[
+          {name:'Shinbox Switch',detail:'6–8 reps',rs:null},
+          {name:'Shinbox ER Stretch',detail:'1–2 min/side',rs:90},
+          {name:'Shinbox IR Stretch',detail:'1–2 min/side',rs:90},
+          {name:'Low Switch Cossack',detail:'8–10/side',rs:null},
+          {name:'Middle Split',detail:'1–2 min',rs:90},
+          {name:'Squat Hold',detail:'1–2 min',rs:90},
+          {name:'Slow Bodyweight Squat',detail:'5 reps',rs:null},
+        ]},
+      },
+      THU: {
+        label:'Rec', date:'Thu 2',
+        cardio:{title:'Optional Active Recovery — 30 min',body:'Low-intensity steady-state only. Walk, hike, bike, or swim. Keep it easy.'},
+        mobility:{title:'Upper Body Mobility · 12–15 min',items:[
+          {name:'Shoulder Circles',detail:'easy warm-up',rs:null},
+          {name:'Childs Pose Lat Stretch',detail:'1 min/side',rs:60},
+          {name:'Childs Pose Reach Through',detail:'1 min/side',rs:60},
+          {name:'Kneeling Triceps Stretch',detail:'30 sec/side',rs:30},
+          {name:'Behind the Back Neck Stretch',detail:'30 sec/side',rs:30},
+          {name:'Prone I / T / Y',detail:'3 reps each · 5 sec hold',rs:null},
+          {name:'Wrist Extension + Flexion Stretch',detail:'1 min each',rs:60},
+          {name:'Downdog to Updog',detail:'5 reps',rs:null},
+        ]},
+      },
+      SAT: {
+        label:'Rec', date:'Sat 4',
+        cardio:{title:'Optional Active Recovery — 30 min',body:'Low-intensity Zone 2 cardio. Jog, hike, walk, ruck, bike, or swim. Keep heart rate at 65–75% of max HR (220 minus your age). Gym option available: 3×(3 min@70% / 2 min@80% / 1 min@90%) with EMOM core work between sets.'},
+        mobility:{title:'Shoulder Flexion Mobility · 10 min',items:[
+          {name:'Passive Hang',detail:'1 min',rs:60},
+          {name:'Sidelying Thoracic Rotation',detail:'5–10/side · 5 sec hold',rs:null},
+          {name:'PVC Lat Stretch',detail:'1–2 min',rs:90},
+          {name:'Prone Shoulder Flexion',detail:'5 reps · 3 sec hold',rs:null},
+          {name:'Banded Lat Stretch',detail:'1–2 min/side',rs:90},
+          {name:'Banded Shoulder Flexion',detail:'10 reps',rs:null},
+          {name:'Prone Shoulder Swimmers (Blackburns)',detail:'5 reps',rs:null},
+        ]},
+      },
+      SUN: {
+        label:'Rest', date:'Sun 5',
+        marcus:`If you complete 100% of your workouts feeling comfortable, something's off.\n\nIntensity doesn't mean chaos or wrecking yourself day after day. But it does mean getting close to the edge of your current capacity. That edge is where adaptation happens.\n\nI call it sustainable intensity. It means honoring the tempo, pushing to the prescribed RPE, getting full range of motion, and adding a little load when it's time. In other words, stick to the program and make sure you read all the training notes.\n\nThis week, choose one movement and truly push it where it's meant to be pushed. You might surprise yourself.`,
+      },
+    }
   }
-  // 2: { label:'Week 2 · Mar 30–Apr 5', ... }
 };
 
 // ── STATE ──────────────────────────────────────────────────────────────────
-let CW=1, CD='MON', noteViewWeek={};
+let CW=2, CD='MON', noteViewWeek={};
 const ALL_DAYS=['MON','TUE','WED','THU','FRI','SAT','SUN'];
 const DAY_LABELS={MON:'Mon',TUE:'Tue',WED:'Wed',THU:'Thu',FRI:'Fri',SAT:'Sat',SUN:'Sun'};
 
